@@ -19,6 +19,7 @@ public class MemberService {
     public List<Member> getAllMembers(){
         return members;
     }
+
     public Member getMemberById(int memberId){
         for(Member member : members){
             if(member.getId()==memberId){
