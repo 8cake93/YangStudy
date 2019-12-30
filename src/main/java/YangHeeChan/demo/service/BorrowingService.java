@@ -29,21 +29,20 @@ public class BorrowingService {
     }
 
     public boolean BorrowingBook(int memberId, int bookId) {
-        for (Borrowing borrowing : borrowings) {
+            Borrowing borrowing = new Borrowing();
             borrowing.setBook(bookService.getBookById((bookId)));
             borrowing.setMember(memberService.getMemberById(memberId));
             borrowing.setId(autoIncrement++);
             borrowing.setStartTime(date);
+            borrowing.setExpiryTime(date);
+            bookService.isOutBook(bookId,true);
             borrowings.add(borrowing);
-        }
+
         return true;
     }
 
-    public List<Borrowing> getBorrowings() {
-        return borrowings;
-    }
+    public List<Borrowing> getBorrowings(int memberId,int bookId) {
 
-    public Borrowing getBorrowingById(int memberId, int bookId) {
         if (memberId == 0 && bookId != 0) {
             for (Borrowing borrowing : borrowings) {
                 if (borrowing.getBook().getId() == bookId) {
@@ -69,10 +68,19 @@ public class BorrowingService {
             return null;
         }
 
+
+        return borrowings;
+    }
+
+    public Borrowing getBorrowingById(int memberId, int bookId) {
+
         return null;
     }
 
     public boolean returnBorrowing(int bookId) {
+
+        bookService.isOutBook(bookId,false);
+
         return true;
     }
 

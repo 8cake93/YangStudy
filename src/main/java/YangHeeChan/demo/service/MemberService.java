@@ -1,6 +1,9 @@
 package YangHeeChan.demo.service;
 
+import YangHeeChan.demo.dto.SimpleMemberByIdResponseDTO;
+import YangHeeChan.demo.dto.SimpleMemberResponseDTO;
 import YangHeeChan.demo.entity.Member;
+import YangHeeChan.demo.mapper.MemberMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -8,44 +11,39 @@ import java.util.List;
 
 @Service
 public class MemberService {
-    private int autoIncrement = 1 ;
-    private List<Member> members = new ArrayList<>();
+
+    private final MemberMapper memberMapper;
+
+    public MemberService(MemberMapper memberMapper) {
+        this.memberMapper = memberMapper;
+    }
+
 
     public boolean saveMember(Member member){
-        member.setId(autoIncrement++);
-        members.add(member);
+        memberMapper.insertMember(member);
         return true;
     }
-    public List<Member> getAllMembers(){
-        return members;
+    public List<SimpleMemberResponseDTO> getAllMembers(){
+
+        List<SimpleMemberResponseDTO> yang2 = new ArrayList<>();
+        for(Member member:memberMapper.getAllMembers()){
+            yang2.add(SimpleMemberResponseDTO.of(member));
+        }
+        return yang2;
+
     }
 
-    public Member getMemberById(int memberId){
-        for(Member member : members){
-            if(member.getId()==memberId){
-                return member;
-            }
-        }
-        return null;
+    public SimpleMemberByIdResponseDTO getMemberById(int memberId){
+
+        return SimpleMemberByIdResponseDTO.of(memberMapper.getMemberById(memberId));
+
     }
-    public boolean putMember(int memberId,Member puttedMember){
-        for(Member member : members){
-            if(member.getId()==memberId){
-                member.setEmail(puttedMember.getEmail());
-                member.setPassword(puttedMember.getPassword());
-                member.setName(puttedMember.getName());
-                member.setPhoneNumber(puttedMember.getPhoneNumber());
-                return true;
-            }
-        }
-        return false;
+    public boolean putMember(int memberId,Member newMember){
+        memberMapper.updateMember(memberId,newMember);
+        return true;
     }
     public boolean deleteMember(int memberId){
-        for(Member member : members){
-            if(member.getId()==memberId){
-                members.remove(member);
-            }
-        }
+        memberMapper.deleteMemberById(memberId);
         return true;
     }
 }

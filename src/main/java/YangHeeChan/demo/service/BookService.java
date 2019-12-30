@@ -50,5 +50,11 @@ public class BookService {
         }
         return true;
     }
-
+    public void isOutBook(int bookId,boolean tt){
+        for(Book book:books){
+            if(book.getId()==bookId){
+                book.setOut(tt);
+            }
+        }
+    }
 }

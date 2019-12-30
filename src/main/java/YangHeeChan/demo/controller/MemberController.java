@@ -1,5 +1,7 @@
 package YangHeeChan.demo.controller;
 
+import YangHeeChan.demo.dto.SimpleMemberByIdResponseDTO;
+import YangHeeChan.demo.dto.SimpleMemberResponseDTO;
 import YangHeeChan.demo.entity.Member;
 import YangHeeChan.demo.service.MemberService;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +24,11 @@ public class MemberController {
     }
 
     @GetMapping("/{memberId}")
-    public Member getMemberById(@PathVariable("memberId") int memberId){
+    public SimpleMemberByIdResponseDTO getMemberById(@PathVariable("memberId") int memberId){
         return  memberService.getMemberById(memberId);
     }
     @GetMapping
-    public List<Member> getAllMembers(){
+    public List<SimpleMemberResponseDTO> getAllMembers(){
         return  memberService.getAllMembers();
     }
     @PutMapping("/{memberId}")

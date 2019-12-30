@@ -16,20 +16,20 @@ public class BorrowingController {
         this.borrowingService = borrowingService;
     }
 
-    @PostMapping("/members/{memberId}/books/{bookId}")
+    @PostMapping("/{memberId}/{bookId}")
     public Boolean BorrowingBook(@PathVariable int memberId,@PathVariable int bookId){
         return borrowingService.BorrowingBook(memberId,bookId);
     }
 
-    @GetMapping("/all")
-    public List<Borrowing> getBorrowings(){
-        return borrowingService.getBorrowings();
+    @GetMapping("")
+    public List<Borrowing> getBorrowings(@RequestParam(value="memberId",required = false, defaultValue = "0") int memberId,
+                                         @RequestParam(value="bookId",required = false, defaultValue = "0") int bookId){
+        return borrowingService.getBorrowings(memberId,bookId);
     }
 
-    @GetMapping()
-    public Borrowing getBorrowingById(@RequestParam(value="memberId",required = false, defaultValue = "0") int memberId,
-                                      @RequestParam(value="bookId",required = false, defaultValue = "0") int bookId){
-        return borrowingService.getBorrowingById(memberId,bookId);
+    @GetMapping("")
+    public Borrowing getBorrowingById(int memberId){
+        return borrowingService.getBorrowingById(memberId);
     }
 
     @PatchMapping("/return/books/{bookId}")
